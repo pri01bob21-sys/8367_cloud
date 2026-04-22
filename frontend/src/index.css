@@ -1,0 +1,43 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background: #0d1117;
+  color: #c9d1d9;
+  min-height: 100vh;
+}
+
+h1 { font-size: 1.4rem; color: #58a6ff; }
+h2 { font-size: 1.1rem; color: #79c0ff; margin: 16px 0 8px; }
+
+button {
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 5px 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: inherit;
+}
+button:hover { background: #30363d; }
+button:disabled { opacity: 0.5; cursor: default; }
+
+input, textarea {
+  background: #0d1117;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 13px;
+}
+input:focus, textarea:focus { outline: 1px solid #58a6ff; }
+
+table { border-collapse: collapse; width: 100%; font-size: 12px; }
+th { background: #161b22; color: #8b949e; font-weight: 600; padding: 6px 10px; border: 1px solid #21262d; text-align: left; }
+td { padding: 5px 10px; border: 1px solid #21262d; vertical-align: top; }
+tr:nth-child(even) { background: #0d1117; }
+tr:nth-child(odd)  { background: #161b22; }
+
+.status-ok    { color: #3fb950; }
+.status-error { color: #f85149; }

@@ -1,0 +1,66 @@
+version: '3.8'
+
+networks:
+  nms-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: switch_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: nms_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - nms-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nats:
+    image: nats:2.10-alpine
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    command: ["--http_port", "8222"]
+    networks:
+      - nms-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: switch_db
+      DB_USER: postgres
+      DB_PASSWORD: nms_password
+      NATS_URL: nats://nats:4222
+      PORT: "3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      nats:
+        condition: service_started
+    networks:
+      - nms-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - nms-network
+    restart: unless-stopped

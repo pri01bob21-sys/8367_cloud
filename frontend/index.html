@@ -1,45 +1,12 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Switch Data</title>
-</head>
-<body>
-
-<h2>Switch Data</h2>
-
-<button onclick="loadData()">Get Data</button>
-
-<table border="1" id="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Data</th>
-      <th>Time</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-
-<script>
-async function loadData() {
-  const res = await fetch('http://localhost:3000/get_data');
-  const data = await res.json();
-
-  const tbody = document.querySelector('#table tbody');
-  tbody.innerHTML = '';
-
-  data.forEach(item => {
-    const row = `
-      <tr>
-        <td>${item.id}</td>
-        <td>${JSON.stringify(item.data)}</td>
-        <td>${item.created_at}</td>
-      </tr>
-    `;
-    tbody.innerHTML += row;
-  });
-}
-</script>
-
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Network Management System</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
